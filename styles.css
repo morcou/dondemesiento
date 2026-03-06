@@ -1,0 +1,202 @@
+:root {
+  --bg: linear-gradient(160deg, #fef6e4 0%, #dbeafe 45%, #dcfce7 100%);
+  --panel: rgba(255, 255, 255, 0.85);
+  --text: #172554;
+  --accent: #0f766e;
+  --muted: #475569;
+  --ring: #22c55e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 1.7rem;
+}
+
+.hero p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+
+.panel {
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 0.9rem;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(5px);
+}
+
+select,
+input,
+button {
+  font: inherit;
+}
+
+input[type="text"],
+button {
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 0.6rem 0.7rem;
+}
+
+input[type="text"] {
+  width: 100%;
+}
+
+.btn-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+button {
+  background: white;
+  font-weight: 600;
+}
+
+button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.status {
+  margin: 0.7rem 0 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.girls-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.girl-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.name-input {
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.car-wrap {
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+}
+
+.car {
+  min-width: 340px;
+  width: 100%;
+  background: linear-gradient(145deg, #1d4ed8, #2563eb);
+  border-radius: 32px;
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.car.shake {
+  animation: pop 450ms ease;
+}
+
+@keyframes pop {
+  0% {
+    transform: rotate(-1.2deg) scale(0.99);
+  }
+  40% {
+    transform: rotate(1.4deg) scale(1.01);
+  }
+  100% {
+    transform: rotate(0) scale(1);
+  }
+}
+
+.seat-row {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.seat-row-back {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.seat-row-third {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.seat {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 14px;
+  padding: 0.45rem;
+  text-align: center;
+  min-height: 132px;
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+}
+
+.seat-label {
+  font-size: 0.76rem;
+  color: #334155;
+  margin: 0;
+}
+
+.avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+  border: 2px solid var(--ring);
+  background: #e2e8f0;
+}
+
+.name {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.empty {
+  color: #64748b;
+  font-style: italic;
+  margin: auto;
+  padding-top: 0.35rem;
+}
+
+@media (max-width: 520px) {
+  .girl-card {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-row {
+    grid-template-columns: 1fr;
+  }
+}

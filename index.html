@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Randomizador de Asientos</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="hero">
+        <h1>Randomizador de Asientos</h1>
+        <p>Sacudí el celu o tocá el botón para mezclar dónde se sienta cada nena.</p>
+      </header>
+
+      <section class="panel controls">
+        <div class="btn-row">
+          <button id="randomizeBtn" type="button" class="primary">Randomizar</button>
+          <button id="motionBtn" type="button">Activar shake</button>
+        </div>
+
+        <p id="status" class="status">Cargá las fotos y tocá Randomizar.</p>
+      </section>
+
+      <section class="panel">
+        <h2>Participantes</h2>
+        <div id="girlsList" class="girls-list"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Auto</h2>
+        <div class="car-wrap">
+          <div class="car" id="car"></div>
+        </div>
+      </section>
+    </main>
+
+    <template id="girlTemplate">
+      <article class="girl-card">
+        <input class="name-input" type="text" maxlength="20" readonly />
+        <input class="photo-input" type="file" accept="image/*" />
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
