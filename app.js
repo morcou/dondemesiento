@@ -134,7 +134,7 @@ function createPassengerSeatCard(seat, girl) {
   };
 
   const name = document.createElement("p");
-  name.className = "name";
+  name.className = "name name-passenger";
   name.textContent = girl.name;
 
   card.appendChild(img);
