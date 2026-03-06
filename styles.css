@@ -115,11 +115,7 @@ button:active {
 .car {
   min-width: 340px;
   width: 100%;
-  background: linear-gradient(145deg, #1d4ed8, #2563eb);
-  border-radius: 32px;
-  padding: 0.8rem;
-  display: grid;
-  gap: 0.5rem;
+  display: block;
 }
 
 .car.shake {
@@ -138,57 +134,101 @@ button:active {
   }
 }
 
-.seat-row {
+.car-shell {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  background-image: url("./car-top.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  padding: 10% 14% 12%;
   display: grid;
-  gap: 0.5rem;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0.55rem;
 }
 
-.seat-row-back {
+.seat-row {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.seat-row-front {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.seat-row-middle {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .seat-row-third {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0 14%;
 }
 
-.seat {
-  background: rgba(255, 255, 255, 0.92);
+.seat-pin {
+  min-height: 78px;
   border-radius: 14px;
-  padding: 0.45rem;
+  padding: 0.25rem;
   text-align: center;
-  min-height: 132px;
   display: grid;
-  align-content: start;
-  gap: 0.35rem;
+  gap: 0.18rem;
+  justify-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(2px);
+}
+
+.seat-pin-front {
+  min-height: 68px;
+  background: rgba(15, 23, 42, 0.22);
+}
+
+.seat-pin-driver {
+  border-color: rgba(56, 189, 248, 0.9);
+}
+
+.seat-pin-fixed {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
+}
+
+.seat-pin-fixed .seat-label::after {
+  content: " \1F9F8";
 }
 
 .seat-label {
-  font-size: 0.76rem;
-  color: #334155;
+  font-size: 0.63rem;
+  color: #f8fafc;
   margin: 0;
+  line-height: 1.1;
+  text-shadow: 0 1px 2px rgba(2, 6, 23, 0.85);
 }
 
 .avatar {
-  width: 58px;
-  height: 58px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   object-fit: cover;
-  margin: 0 auto;
   border: 2px solid var(--ring);
   background: #e2e8f0;
+  box-shadow: 0 4px 10px rgba(2, 6, 23, 0.45);
 }
 
 .name {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: 0.72rem;
   font-weight: 700;
+  color: #f8fafc;
+  text-shadow: 0 1px 2px rgba(2, 6, 23, 0.85);
 }
 
 .empty {
-  color: #64748b;
+  color: #e2e8f0;
   font-style: italic;
-  margin: auto;
-  padding-top: 0.35rem;
+  margin: 0.3rem 0 0;
+  font-size: 0.72rem;
+  text-shadow: 0 1px 2px rgba(2, 6, 23, 0.85);
 }
 
 @media (max-width: 520px) {
@@ -198,5 +238,23 @@ button:active {
 
   .btn-row {
     grid-template-columns: 1fr;
+  }
+
+  .seat-pin {
+    min-height: 74px;
+  }
+
+  .avatar {
+    width: 35px;
+    height: 35px;
+  }
+
+  .car-shell {
+    padding: 11% 10% 12%;
+    gap: 0.4rem;
+  }
+
+  .seat-row-third {
+    padding: 0 8%;
   }
 }

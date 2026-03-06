@@ -1,10 +1,16 @@
-const girlsListEl = document.getElementById("girlsList");
-const girlTemplate = document.getElementById("girlTemplate");
 const carEl = document.getElementById("car");
 const statusEl = document.getElementById("status");
 
 const randomizeBtn = document.getElementById("randomizeBtn");
 const motionBtn = document.getElementById("motionBtn");
+
+const FALLBACK_AVATAR =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Crect width='140' height='140' fill='%23cbd5e1'/%3E%3Ccircle cx='70' cy='52' r='26' fill='%2394a3b8'/%3E%3Crect x='32' y='88' width='76' height='40' rx='20' fill='%2394a3b8'/%3E%3C/svg%3E";
+
+const FRONT_SEATS = [
+  { key: "driver", label: "Conductor", fixedText: "Vos" },
+  { key: "copilot", label: "Acompanante", fixedText: "Libre" }
+];
 
 const SEATS = [
   { key: "back-left", label: "Atras izquierda (sillita)", fixedName: "Panchi" },
@@ -14,11 +20,13 @@ const SEATS = [
   { key: "third-right", label: "3ra fila derecha" }
 ];
 
-const girls = ["Panchi", "Toña", "Bruna", "Aida", "Clara"].map((name) => ({
-  id: crypto.randomUUID(),
-  name,
-  photo: ""
-}));
+const girls = [
+  { name: "Panchi", photo: "./photos/panchi.jpg" },
+  { name: "Toña", photo: "./photos/tona.jpg" },
+  { name: "Bruna", photo: "./photos/bruna.jpg" },
+  { name: "Aida", photo: "./photos/aida.jpg" },
+  { name: "Clara", photo: "./photos/clara.jpg" }
+];
 
 let motionEnabled = false;
 let lastShakeTime = 0;
@@ -26,42 +34,6 @@ let currentAssignment = [];
 
 function setStatus(text) {
   statusEl.textContent = text;
-}
-
-function readFileAsDataURL(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-function renderGirls() {
-  girlsListEl.innerHTML = "";
-
-  girls.forEach((girl) => {
-    const node = girlTemplate.content.firstElementChild.cloneNode(true);
-    const nameInput = node.querySelector(".name-input");
-    const photoInput = node.querySelector(".photo-input");
-
-    nameInput.value = girl.name;
-
-    photoInput.addEventListener("change", async (e) => {
-      const [file] = e.target.files;
-      if (!file) return;
-
-      try {
-        girl.photo = await readFileAsDataURL(file);
-        setStatus(`Foto cargada para ${girl.name}.`);
-        renderCar(currentAssignment);
-      } catch (err) {
-        setStatus("No pude leer la foto.");
-      }
-    });
-
-    girlsListEl.appendChild(node);
-  });
 }
 
 function shuffle(array) {
@@ -74,8 +46,8 @@ function shuffle(array) {
 }
 
 function randomizeSeats(trigger = "manual") {
-  const panchi = girls.find((g) => g.name.toLowerCase() === "panchi");
-  const others = girls.filter((g) => g !== panchi);
+  const panchi = girls.find((g) => g.name === "Panchi");
+  const others = girls.filter((g) => g.name !== "Panchi");
 
   const shuffledOthers = shuffle(others);
   currentAssignment = SEATS.map((seat) => {
@@ -97,57 +69,90 @@ function randomizeSeats(trigger = "manual") {
 function renderCar(assignment = []) {
   carEl.innerHTML = "";
 
-  const backRow = document.createElement("div");
-  backRow.className = "seat-row seat-row-back";
+  const shell = document.createElement("section");
+  shell.className = "car-shell";
+
+  const frontRow = document.createElement("div");
+  frontRow.className = "seat-row seat-row-front";
+  FRONT_SEATS.forEach((seat) => {
+    frontRow.appendChild(createFixedSeatCard(seat));
+  });
+
+  const middleRow = document.createElement("div");
+  middleRow.className = "seat-row seat-row-middle";
 
   const thirdRow = document.createElement("div");
   thirdRow.className = "seat-row seat-row-third";
 
-  assignment.forEach(({ seat, girl }, index) => {
-    const seatNode = createSeat(seat.label, girl);
-    if (index < 3) {
-      backRow.appendChild(seatNode);
-    } else {
-      thirdRow.appendChild(seatNode);
+  assignment.forEach(({ seat, girl }) => {
+    if (seat.key.startsWith("back-")) {
+      middleRow.appendChild(createPassengerSeatCard(seat, girl));
+      return;
     }
+    thirdRow.appendChild(createPassengerSeatCard(seat, girl));
   });
 
-  carEl.appendChild(backRow);
-  carEl.appendChild(thirdRow);
+  shell.appendChild(frontRow);
+  shell.appendChild(middleRow);
+  shell.appendChild(thirdRow);
+  carEl.appendChild(shell);
 }
 
-function createSeat(label, girl) {
-  const seat = document.createElement("article");
-  seat.className = "seat";
+function createFixedSeatCard(seat) {
+  const card = document.createElement("article");
+  card.className = "seat-pin seat-pin-front";
+  if (seat.key === "driver") {
+    card.classList.add("seat-pin-driver");
+  }
 
   const seatLabel = document.createElement("p");
   seatLabel.className = "seat-label";
-  seatLabel.textContent = label;
-  seat.appendChild(seatLabel);
+  seatLabel.textContent = seat.label;
+  card.appendChild(seatLabel);
+
+  const text = document.createElement("p");
+  text.className = "name";
+  text.textContent = seat.fixedText;
+  card.appendChild(text);
+
+  return card;
+}
+
+function createPassengerSeatCard(seat, girl) {
+  const pin = document.createElement("article");
+  pin.className = "seat-pin";
+  if (seat.fixedName) {
+    pin.classList.add("seat-pin-fixed");
+  }
+
+  const seatLabel = document.createElement("p");
+  seatLabel.className = "seat-label";
+  seatLabel.textContent = seat.label;
+  pin.appendChild(seatLabel);
 
   if (!girl) {
     const empty = document.createElement("p");
     empty.className = "empty";
     empty.textContent = "Libre";
-    seat.appendChild(empty);
-    return seat;
+    pin.appendChild(empty);
+    return pin;
   }
 
   const img = document.createElement("img");
   img.className = "avatar";
   img.alt = `Foto de ${girl.name}`;
-  img.src = girl.photo || "";
-  if (!girl.photo) {
-    img.style.visibility = "hidden";
-  }
+  img.src = girl.photo;
+  img.onerror = () => {
+    img.src = FALLBACK_AVATAR;
+  };
 
   const name = document.createElement("p");
   name.className = "name";
   name.textContent = girl.name;
 
-  seat.appendChild(img);
-  seat.appendChild(name);
-  return seat;
+  pin.appendChild(img);
+  pin.appendChild(name);
+  return pin;
 }
 
 function handleMotion(event) {
@@ -193,5 +198,4 @@ async function enableMotion() {
 randomizeBtn.addEventListener("click", () => randomizeSeats("manual"));
 motionBtn.addEventListener("click", enableMotion);
 
-renderGirls();
 randomizeSeats("manual");

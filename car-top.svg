@@ -1,0 +1,44 @@
+<svg width="1200" height="600" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="paintBody" x1="600" y1="0" x2="600" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#D4DCE6"/>
+    </linearGradient>
+    <linearGradient id="paintGlass" x1="600" y1="90" x2="600" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3A4453"/>
+      <stop offset="1" stop-color="#0B1120"/>
+    </linearGradient>
+    <linearGradient id="paintSeat" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#2A3340"/>
+      <stop offset="1" stop-color="#151C27"/>
+    </linearGradient>
+    <filter id="shadow" x="60" y="10" width="1080" height="590" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feOffset dy="22"/>
+      <feGaussianBlur stdDeviation="20"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.06 0 0 0 0 0.09 0 0 0 0 0.14 0 0 0 0.28 0"/>
+      <feBlend mode="normal" in2="SourceGraphic" result="shape"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <path d="M280 24H920C981 24 1031 71 1040 131L1096 479C1106 553 1048 618 973 618H227C152 618 94 553 104 479L160 131C169 71 219 24 280 24Z" fill="url(#paintBody)"/>
+    <path d="M312 66H888C936 66 976 102 982 149L1030 470C1038 527 993 576 936 576H264C207 576 162 527 170 470L218 149C224 102 264 66 312 66Z" fill="url(#paintGlass)"/>
+
+    <rect x="425" y="94" width="350" height="82" rx="40" fill="#C9D2DF" fill-opacity="0.95"/>
+    <rect x="504" y="205" width="192" height="82" rx="20" fill="#0B1220" fill-opacity="0.85"/>
+
+    <rect x="275" y="270" width="170" height="130" rx="24" fill="url(#paintSeat)"/>
+    <rect x="515" y="270" width="170" height="130" rx="24" fill="url(#paintSeat)"/>
+    <rect x="755" y="270" width="170" height="130" rx="24" fill="url(#paintSeat)"/>
+
+    <rect x="385" y="420" width="170" height="120" rx="24" fill="url(#paintSeat)"/>
+    <rect x="645" y="420" width="170" height="120" rx="24" fill="url(#paintSeat)"/>
+
+    <rect x="275" y="258" width="170" height="20" rx="10" fill="#394556"/>
+    <rect x="515" y="258" width="170" height="20" rx="10" fill="#394556"/>
+    <rect x="755" y="258" width="170" height="20" rx="10" fill="#394556"/>
+
+    <rect x="385" y="408" width="170" height="20" rx="10" fill="#394556"/>
+    <rect x="645" y="408" width="170" height="20" rx="10" fill="#394556"/>
+  </g>
+</svg>
