@@ -1,8 +1,5 @@
 const carEl = document.getElementById("car");
-const statusEl = document.getElementById("status");
-
 const randomizeBtn = document.getElementById("randomizeBtn");
-const motionBtn = document.getElementById("motionBtn");
 
 const FALLBACK_AVATAR =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Crect width='140' height='140' fill='%23cbd5e1'/%3E%3Ccircle cx='70' cy='52' r='26' fill='%2394a3b8'/%3E%3Crect x='32' y='88' width='76' height='40' rx='20' fill='%2394a3b8'/%3E%3C/svg%3E";
@@ -32,10 +29,6 @@ let motionEnabled = false;
 let lastShakeTime = 0;
 let currentAssignment = [];
 
-function setStatus(text) {
-  statusEl.textContent = text;
-}
-
 function shuffle(array) {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i -= 1) {
@@ -45,7 +38,7 @@ function shuffle(array) {
   return arr;
 }
 
-function randomizeSeats(trigger = "manual") {
+function randomizeSeats() {
   const panchi = girls.find((g) => g.name === "Panchi");
   const others = girls.filter((g) => g.name !== "Panchi");
 
@@ -61,9 +54,6 @@ function randomizeSeats(trigger = "manual") {
   carEl.classList.remove("shake");
   void carEl.offsetWidth;
   carEl.classList.add("shake");
-
-  const source = trigger === "shake" ? "Shake detectado" : "Lista mezclada";
-  setStatus(`${source}. Panchi queda fija en la sillita.`);
 }
 
 function renderCar(assignment = []) {
@@ -100,10 +90,7 @@ function renderCar(assignment = []) {
 
 function createFixedSeatCard(seat) {
   const card = document.createElement("article");
-  card.className = "seat-pin seat-pin-front";
-  if (seat.key === "driver") {
-    card.classList.add("seat-pin-driver");
-  }
+  card.className = "seat seat-front";
 
   const seatLabel = document.createElement("p");
   seatLabel.className = "seat-label";
@@ -119,23 +106,23 @@ function createFixedSeatCard(seat) {
 }
 
 function createPassengerSeatCard(seat, girl) {
-  const pin = document.createElement("article");
-  pin.className = "seat-pin";
+  const card = document.createElement("article");
+  card.className = "seat";
   if (seat.fixedName) {
-    pin.classList.add("seat-pin-fixed");
+    card.classList.add("seat-fixed");
   }
 
   const seatLabel = document.createElement("p");
   seatLabel.className = "seat-label";
   seatLabel.textContent = seat.label;
-  pin.appendChild(seatLabel);
+  card.appendChild(seatLabel);
 
   if (!girl) {
     const empty = document.createElement("p");
     empty.className = "empty";
     empty.textContent = "Libre";
-    pin.appendChild(empty);
-    return pin;
+    card.appendChild(empty);
+    return card;
   }
 
   const img = document.createElement("img");
@@ -150,9 +137,9 @@ function createPassengerSeatCard(seat, girl) {
   name.className = "name";
   name.textContent = girl.name;
 
-  pin.appendChild(img);
-  pin.appendChild(name);
-  return pin;
+  card.appendChild(img);
+  card.appendChild(name);
+  return card;
 }
 
 function handleMotion(event) {
@@ -165,13 +152,12 @@ function handleMotion(event) {
 
   if (magnitude > threshold && now - lastShakeTime > 1100) {
     lastShakeTime = now;
-    randomizeSeats("shake");
+    randomizeSeats();
   }
 }
 
 async function enableMotion() {
-  if (typeof DeviceMotionEvent === "undefined") {
-    setStatus("Este navegador no soporta detector de shake.");
+  if (motionEnabled || typeof DeviceMotionEvent === "undefined") {
     return;
   }
 
@@ -179,23 +165,20 @@ async function enableMotion() {
     if (typeof DeviceMotionEvent.requestPermission === "function") {
       const response = await DeviceMotionEvent.requestPermission();
       if (response !== "granted") {
-        setStatus("Permiso de movimiento rechazado.");
         return;
       }
     }
 
-    if (!motionEnabled) {
-      window.addEventListener("devicemotion", handleMotion);
-      motionEnabled = true;
-      setStatus("Shake activo. Sacudi el celu para randomizar.");
-      motionBtn.textContent = "Shake activo";
-    }
-  } catch (err) {
-    setStatus("No pude activar el detector de shake.");
+    window.addEventListener("devicemotion", handleMotion);
+    motionEnabled = true;
+  } catch (_err) {
+    // Ignore: some browsers block motion events.
   }
 }
 
-randomizeBtn.addEventListener("click", () => randomizeSeats("manual"));
-motionBtn.addEventListener("click", enableMotion);
+randomizeBtn.addEventListener("click", async () => {
+  await enableMotion();
+  randomizeSeats();
+});
 
-randomizeSeats("manual");
+randomizeSeats();

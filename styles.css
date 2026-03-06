@@ -1,10 +1,11 @@
 :root {
-  --bg: linear-gradient(160deg, #fef6e4 0%, #dbeafe 45%, #dcfce7 100%);
-  --panel: rgba(255, 255, 255, 0.85);
-  --text: #172554;
-  --accent: #0f766e;
-  --muted: #475569;
-  --ring: #22c55e;
+  --bg: #f1f5f9;
+  --text: #0f172a;
+  --car: #e2e8f0;
+  --cabin: #cbd5e1;
+  --seat: #1e293b;
+  --seat-front: #334155;
+  --fixed: #f59e0b;
 }
 
 * {
@@ -13,144 +14,71 @@
 
 body {
   margin: 0;
-  font-family: "Avenir Next", "Segoe UI", sans-serif;
-  color: var(--text);
   min-height: 100vh;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
   background: var(--bg);
+  color: var(--text);
 }
 
 .app {
-  max-width: 720px;
+  width: min(760px, 100%);
   margin: 0 auto;
   padding: 1rem;
   display: grid;
-  gap: 0.9rem;
+  gap: 1rem;
 }
 
-.hero h1 {
-  margin: 0;
-  font-size: 1.7rem;
-}
-
-.hero p {
-  margin: 0.4rem 0 0;
-  color: var(--muted);
-}
-
-.panel {
-  background: var(--panel);
-  border-radius: 16px;
-  padding: 0.9rem;
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
-  backdrop-filter: blur(5px);
-}
-
-select,
-input,
-button {
-  font: inherit;
-}
-
-input[type="text"],
-button {
-  border: 1px solid #cbd5e1;
-  border-radius: 12px;
-  padding: 0.6rem 0.7rem;
-}
-
-input[type="text"] {
+.cta {
   width: 100%;
+  border: 0;
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: #0f766e;
+  color: #fff;
 }
 
-.btn-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem;
-}
-
-button {
-  background: white;
-  font-weight: 600;
-}
-
-button.primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-
-button:active {
-  transform: scale(0.98);
-}
-
-.status {
-  margin: 0.7rem 0 0;
-  font-size: 0.92rem;
-  color: var(--muted);
-}
-
-.girls-list {
-  display: grid;
-  gap: 0.55rem;
-}
-
-.girl-card {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.45rem;
-  align-items: center;
-}
-
-.name-input {
-  background: #f8fafc;
-  color: #0f172a;
-  font-weight: 600;
+.cta:active {
+  transform: scale(0.99);
 }
 
 .car-wrap {
-  overflow-x: auto;
-  padding-bottom: 0.35rem;
+  width: 100%;
 }
 
 .car {
-  min-width: 340px;
   width: 100%;
-  display: block;
 }
 
 .car.shake {
-  animation: pop 450ms ease;
+  animation: tap 300ms ease;
 }
 
-@keyframes pop {
-  0% {
-    transform: rotate(-1.2deg) scale(0.99);
-  }
-  40% {
-    transform: rotate(1.4deg) scale(1.01);
-  }
-  100% {
-    transform: rotate(0) scale(1);
-  }
+@keyframes tap {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.99); }
+  100% { transform: scale(1); }
 }
 
 .car-shell {
-  position: relative;
   width: 100%;
   aspect-ratio: 2 / 1;
-  background-image: url("./car-top.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  padding: 10% 14% 12%;
+  border: 2px solid #94a3b8;
+  border-radius: 24px;
+  background: var(--car);
+  padding: 0.9rem;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
-  gap: 0.55rem;
+  gap: 0.5rem;
 }
 
 .seat-row {
+  border-radius: 14px;
+  background: var(--cabin);
+  padding: 0.4rem;
   display: grid;
-  gap: 0.45rem;
+  gap: 0.4rem;
 }
 
 .seat-row-front {
@@ -163,98 +91,81 @@ button:active {
 
 .seat-row-third {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  padding: 0 14%;
+  padding-left: 18%;
+  padding-right: 18%;
 }
 
-.seat-pin {
-  min-height: 78px;
-  border-radius: 14px;
-  padding: 0.25rem;
-  text-align: center;
+.seat {
+  min-height: 82px;
+  border-radius: 12px;
+  background: var(--seat);
+  padding: 0.3rem;
   display: grid;
-  gap: 0.18rem;
+  align-content: start;
   justify-items: center;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(2px);
+  gap: 0.16rem;
 }
 
-.seat-pin-front {
-  min-height: 68px;
-  background: rgba(15, 23, 42, 0.22);
+.seat-front {
+  min-height: 72px;
+  background: var(--seat-front);
 }
 
-.seat-pin-driver {
-  border-color: rgba(56, 189, 248, 0.9);
+.seat-fixed {
+  outline: 2px solid var(--fixed);
 }
 
-.seat-pin-fixed {
-  border-color: #f59e0b;
-  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
-}
-
-.seat-pin-fixed .seat-label::after {
+.seat-fixed .seat-label::after {
   content: " \1F9F8";
 }
 
 .seat-label {
-  font-size: 0.63rem;
-  color: #f8fafc;
   margin: 0;
-  line-height: 1.1;
-  text-shadow: 0 1px 2px rgba(2, 6, 23, 0.85);
+  font-size: 0.62rem;
+  line-height: 1.05;
+  text-align: center;
+  color: #f8fafc;
 }
 
 .avatar {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--ring);
+  border: 2px solid #22c55e;
   background: #e2e8f0;
-  box-shadow: 0 4px 10px rgba(2, 6, 23, 0.45);
 }
 
 .name {
   margin: 0;
   font-size: 0.72rem;
-  font-weight: 700;
   color: #f8fafc;
-  text-shadow: 0 1px 2px rgba(2, 6, 23, 0.85);
+  font-weight: 700;
+  text-align: center;
 }
 
 .empty {
-  color: #e2e8f0;
-  font-style: italic;
-  margin: 0.3rem 0 0;
+  margin: 0.2rem 0 0;
+  color: #cbd5e1;
   font-size: 0.72rem;
-  text-shadow: 0 1px 2px rgba(2, 6, 23, 0.85);
 }
 
 @media (max-width: 520px) {
-  .girl-card {
-    grid-template-columns: 1fr;
-  }
-
-  .btn-row {
-    grid-template-columns: 1fr;
-  }
-
-  .seat-pin {
+  .seat {
     min-height: 74px;
   }
 
-  .avatar {
-    width: 35px;
-    height: 35px;
+  .seat-front {
+    min-height: 66px;
   }
 
-  .car-shell {
-    padding: 11% 10% 12%;
-    gap: 0.4rem;
+  .avatar {
+    width: 34px;
+    height: 34px;
   }
 
   .seat-row-third {
-    padding: 0 8%;
+    padding-left: 12%;
+    padding-right: 12%;
   }
 }

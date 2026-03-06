@@ -3,29 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Randomizador de Asientos</title>
+    <title>Donde me siento</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="app">
-      <header class="hero">
-        <h1>Randomizador de Asientos</h1>
-        <p>Sacudi el celu o toca el boton para mezclar asientos.</p>
-      </header>
+      <button id="randomizeBtn" type="button" class="cta">Donde me siento?</button>
 
-      <section class="panel controls">
-        <div class="btn-row">
-          <button id="randomizeBtn" type="button" class="primary">Randomizar</button>
-          <button id="motionBtn" type="button">Activar shake</button>
-        </div>
-        <p id="status" class="status">Lista fija: Panchi, Toña, Bruna, Aida y Clara.</p>
-      </section>
-
-      <section class="panel">
-        <h2>Auto</h2>
-        <div class="car-wrap">
-          <div class="car" id="car"></div>
-        </div>
+      <section class="car-wrap">
+        <div class="car" id="car"></div>
       </section>
     </main>
 
